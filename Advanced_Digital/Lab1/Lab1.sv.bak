@@ -1,0 +1,18 @@
+module Lab1(input logic clk,
+				input logic [2:0] w_inputs,
+				output logic [3:0] lights);
+
+				
+//Need to have the 3 inputs for the on off and the two switchd to control the state
+//4 bit output to control the lights
+
+always_ff @(posedge clk)
+begin
+
+	case(w_inputs)
+	
+	
+	default( lights <= 4'b0);
+
+
+end

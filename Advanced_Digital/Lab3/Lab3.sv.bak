@@ -1,0 +1,12 @@
+module lab3(
+	input logic clk, inA, inB, inC,
+	output logic unlock
+);
+	 
+	logic a, b, c;
+	
+	synchronizer syncA(.clk(clk), .in(inA), .out(a));
+	synchronizer syncB(.clk(clk), .in(inB), .out(b));
+	synchronizer syncC(.clk(clk), .in(inC), .out(c));
+	fsm fsm1(.clk(clk), .a(a), .b(b), .c(c), .unlock(unlock));
+endmodule
