@@ -1,0 +1,39 @@
+module TestBench_sevSed_Disp();
+	
+	// Create clock signal
+	logic clk = 1'b0;
+	always #50 clk <= ~clk;
+	
+	// FSM input and outputs
+	logic [5:0] in;
+	logic [1:0] [6:0] out;
+	
+	task TestCase(logic [5:0] forcedIn, logic [6:0] expectedMSB, logic [6:0] expectedLSB);
+		@(negedge clk);
+				in <= forcedIn;
+				
+		@(posedge clk);
+			tc: assert(out[1] == expectedMSB && out[0] == expectedLSB)
+					$display("%b got expected output of %d %d", forcedIn, expectedMSB, expectedLSB);
+				else
+					$display("%b got UNEXPECTED output of %d %d instead of %d %d", forcedIn, out[1], out[0], expectedMSB, expectedLSB);
+	endtask
+	
+	// Connect device to test
+	sevenSeg_Disp xsevenSeg_Disp(.in(in), .out(out));
+	
+	initial begin	
+			
+		TestCase(63, 64, 121);
+		TestCase(40, 36, 25);
+		TestCase(35, 36, 16);
+		TestCase(2, 64, 36);
+		TestCase(9, 64, 16);
+		TestCase(15, 121, 18);
+		TestCase(27, 36, 120);
+		TestCase(39, 36, 18);
+		TestCase(48, 121, 2);
+		TestCase(0, 64, 64);
+	end
+	
+endmodule

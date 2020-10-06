@@ -1,0 +1,18 @@
+module sevenSeg_Disp(
+	input logic [5:0] in,
+	output logic [1:0] [6:0] out  
+);
+
+	// Internal Logic
+	logic [3:0] msb;
+	logic [3:0] lsb;
+	
+	// Assignments
+	assign msb = ((in < 32) ? in : ( in - ( (in-32) * 2) )) / 10;
+	assign lsb = ((in < 32) ? in : ( in - ( (in-32) * 2) )) % 10;
+	
+	
+	// Connect device to test
+	sevenSeg sevenSegMSB(.in(msb), .out(out[1]));
+	sevenSeg sevenSegLSB(.in(lsb), .out(out[0]));
+endmodule

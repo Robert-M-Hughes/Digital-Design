@@ -1,0 +1,75 @@
+module TestBench_Lab4();
+	
+	// Create clock signal
+	logic clk = 1'b0;
+	always #50 clk <= ~clk;
+	
+	// FSM input and outputs
+	logic enable = 1'b1;
+	always #30 enable <= ~enable;
+	
+	//alternate between add/subtract
+	logic operation = 1'b1;
+	always #200 operation <= ~operation;
+	
+	
+	
+	logic v, n, z;
+	logic [5:0] A, B;
+	logic [6:0] outL, outR;
+	
+	
+	task TestCase(logic [5:0] forcedA, logic [5:0] forcedB, logic expectedv, logic expectedn, logic [6:0] expectedMSB, logic [6:0] expectedLSB);
+		
+		@(negedge clk);
+				A <= forcedA;
+				B <= forcedB;
+				
+		@(negedge clk);
+				A <= forcedA;
+				B <= forcedB;
+				
+		@(negedge clk);
+				A <= forcedA;
+				B <= forcedB;
+				
+		@(posedge clk);
+			tc: assert(v == expectedv && n == expectedn && outL == expectedMSB && outR == expectedLSB)
+					$display("%d + %d got expected output of %d %d ov(%B) neg(%B)", forcedA, forcedB, out[1], out[0], v, n);
+				else
+					$error("%d + %d got UNEXPECTED output of %d %d ov(%B) neg(%B) instead of %d %d ov(%B) neg(%B)", forcedA, forcedB, outL, outR, v, n, expectedMSB, expectedLSB, expectedv, expectedn);
+	endtask
+	
+	// Connect device to test 
+	Lab4 xLab4(.enable(enable), .clk(clk), .A(A), .B(B), .operation(operation), .v(v), .n(n), .z(z), .outL(outL), .outR(outR));
+	
+	initial begin
+		// Delay tests while synchronizer enable is in a metastable state
+		@(negedge clk);
+		@(negedge clk);
+		TestCase(2, 10, 0, 0, 121, 36);
+		TestCase(15, 10, 0, 0, 36, 18);
+		TestCase(1, 1, 0, 0, 64, 36);
+		TestCase(0, 30, 0, 0, 48, 64);
+		TestCase(30, 1, 0, 0, 48, 121);
+		TestCase(0, 0, 0, 0, 64, 64);
+		
+		
+		TestCase(31, 1, 1, 1, 48, 36);
+		TestCase(16, 16, 1, 1, 48, 36);
+		TestCase(20, 15, 1, 1, 36, 16);
+		TestCase(20, 23, 1, 1, 36, 121);
+		TestCase(30, 2, 1, 1, 48, 36);
+		TestCase(8, 28, 1, 1, 36, 0);
+		
+		TestCase(63, 63, 0, 1, 64, 36);
+		TestCase(51, 47, 0, 1, 48, 64);
+		TestCase(42, 55, 0, 1, 48, 121);
+		
+		TestCase(32, 32, 1, 0, 64, 64);
+		TestCase(40, 40, 1, 0, 121, 2);
+		TestCase(48, 44, 1, 0, 36, 0);
+
+	end
+	
+endmodule

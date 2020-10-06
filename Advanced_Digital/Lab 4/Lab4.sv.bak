@@ -1,0 +1,23 @@
+module lab4(
+	input logic clk, enable,
+	input logic [5:0] a, b,
+	input logic operation,
+	output logic overflow, negative, zero,
+	output logic [1:0] [6:0] out 
+);
+
+	// Internal logic
+	logic en = 1'b0;
+	logic [5:0] sum;
+	
+	// Assignments
+	assign negative = sum >= 32;
+
+	// Connect device to test
+	//synchronize the clock
+	synchronizer buttonSync(.clk(clk), .in(enable), .out(en));
+	
+	arith xarith(.operation(ALUOp), .a(A), .b(B), .sum(arithout), .zero(z) .overflow(v), .negative(n));
+	sevenSeg_6bit sevenSeg_6bitInst(.in(sum), .out(out));
+
+endmodule
