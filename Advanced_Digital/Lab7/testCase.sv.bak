@@ -1,0 +1,22 @@
+	task TestCase(logic[2:0] inOp, logic[5:0] inA, logic[5:0] inB, logic inMode, logic inReadWrite);			
+		@(negedge clk)begin
+				ALUOp <= inOp;
+			end
+			repeat(4) @(negedge clk);
+			@(negedge clk) begin
+				A <= inA;
+				end
+			repeat(4) @(negedge clk);
+			@(negedge clk) begin
+				B <= inB;
+				end
+			@(negedge clk) begin
+				mode <= inMode;
+				end
+			repeat(4) @(negedge clk);
+			@(negedge clk) begin
+				readWrite <= inReadWrite;
+				end
+
+		
+	endtask

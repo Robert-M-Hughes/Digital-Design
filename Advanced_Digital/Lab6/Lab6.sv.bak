@@ -1,0 +1,20 @@
+module Lab6(
+    input logic clk, mode, readWrite,
+    input logic [14:0] writeData,
+    output logic full, empty,
+	 output logic [27:0] sevenSegments
+);
+
+   // Internal signals
+   logic readWriteButton;
+	logic [14:0] readData;
+
+   // SubcomponentsM
+   fallingEdgeButton buttonSync(.clk(clk), .in(readWrite), .out(readWriteButton));
+   fsm readWriteFifo(.clk(clk), .mode(mode), .readWrite(readWriteButton), .writeData(writeData), .full(full), .empty(empty), .readData(readData));
+	sevenSegment seg3(.in(readData[14:12]), .out(sevenSegments[27:21]));
+	sevenSegment seg2(.in(readData[11:8]), .out(sevenSegments[20:14]));
+	sevenSegment seg1(.in(readData[7:4]), .out(sevenSegments[13:7]));
+	sevenSegment seg0(.in(readData[3:0]), .out(sevenSegments[6:0]));
+	
+endmodule

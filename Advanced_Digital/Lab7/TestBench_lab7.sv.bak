@@ -1,0 +1,67 @@
+module TestBench_lab7();
+	
+	// Create clock signals
+	logic clk = 1'b0;
+	always #50 clk <= ~clk;
+	
+	logic[5:0] A,B;
+	logic[3:0] ALUOp;
+	logic reset = 1'b1;
+	logic mode = 0;
+	logic readWrite = 1;
+	logic[5:0] Y, outA, outB;
+	logic empty, full, z, v, n;
+	
+	
+	task TestCase(logic inOp, logic inA, logic inB, logic inMode, logic inReadWrite);			
+		@(negedge clk)begin
+				ALUOp <= inOp;
+			end
+			repeat(4) @(negedge clk);
+			@(negedge clk) begin
+				A <= inA;
+				end
+			repeat(4) @(negedge clk);
+			@(negedge clk) begin
+				B <= inB;
+				end
+			@(negedge clk) begin
+				mode <= inMode;
+				end
+			repeat(4) @(negedge clk);
+			@(negedge clk) begin
+				readWrite <= inReadWrite;
+				end
+
+		
+	endtask
+	
+
+
+	// Connect device(s) to test
+	lab7 xtop(.A(A), .B(B), .ALUOp(ALUOp), .reset(reset), .readWrite(readWrite), .mode(mode), .Y(Y), .outA(.outA), .outB(outB), .empty(empty), .full(full), .z(z), .v(v), .n(n));
+	
+	
+	initial begin
+	
+	TestCase(0, 1, 1, 1, 0);
+	TestCase(0, 1, 1, 1, 1);
+	TestCase(0, 2, 2, 1, 0);
+	TestCase(0, 2, 2, 1, 1);
+	TestCase(0, 3, 3, 1, 0);
+	TestCase(0, 3, 3, 1, 1);
+	TestCase(0, 4, 4, 1, 0);
+	TestCase(0, 4, 4, 1, 1);
+	TestCase(0, 5, 5, 1, 0);
+	TestCase(0, 5, 5, 1, 1);
+	TestCase(0, 6, 6, 1, 0);
+	TestCase(0, 6, 6, 1, 1);
+	TestCase(0, 7, 7, 1, 0);
+	TestCase(0, 7, 7, 1, 1);
+	TestCase(0, 8, 8, 1, 0);
+	TestCase(0, 8, 8, 1, 1);
+
+		$display("Done!");
+	end
+	
+endmodule

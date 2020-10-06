@@ -1,0 +1,39 @@
+module alu(input logic[5:0] A,B,
+	input logic[3:0] ALUOp,
+	output logic[5:0] Y,
+	output logic z, v, n);
+
+	//Signal declarations
+	logic[5:0] boolout, shiftout, arithout, compout;
+
+	//Module declarations
+
+	arith xarith(ALUOp,A,B,arithout,z,v,n);
+	comp xcomp(ALUOp,z,v,n,compout);
+
+
+	//Output assignment
+
+	always_comb
+		begin
+			if(ALUOp == 3'b000 || ALUOp == 3'b001) begin
+				Y <= arithout;
+			end
+			else if(ALUOp[3:0] == 4'b0101 || ALUOp[3:0] == 4'b0111 || ALUOp[3:0] == 4'b1101)begin
+				Y <= compout;
+			end
+			else begin
+				Y <= shiftout;
+			end
+		end
+/*
+		 // Output assignment
+            assign Y = A;
+            assign z = 1'b0; 
+            assign v = 1'b0;
+            assign n = 1'b0;
+
+*/
+
+endmodule
+

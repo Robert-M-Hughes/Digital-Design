@@ -1,0 +1,124 @@
+module fsm(
+	input logic clk, reset, mode, calculate,
+	input logic [5:0] inA, inB,
+	input logic [2:0] inOp,
+	output logic [5:0] outA, outB, outC,
+	output logic [2:0] outOp,
+	output logic full, empty, overflow
+);
+
+	/* States */
+	typedef enum {
+		IDLE,
+		WRITE_IDLE,
+		READ_IDLE,
+		WRITE,
+		READ,
+	} statetype;
+	statetype state = IDLE, nextState = IDLE;
+
+	/* Internal Signals */
+	
+	// Enable writes when not in IDLE
+	logic enA;
+	assign enA = state == WRITE;
+	
+	// Create address signals
+	logic [3:0] readAddress = 0, writeAddress = 0;
+	assign full = readAddress[3] != writeAddress[3] && readAddress[2:0] == writeAddress[2:0];
+	assign empty = readAddress[3] == writeAddress[3] && readAddress[2:0] == writeAddress[2:0];
+	
+	// Create dataIn and assign input values to correct bits
+	logic [14:0] dataIn;
+	assign dataIn[14:12] = inOp;
+	assign dataIn[11:6] = inA;
+	assign dataIn[5:0] = inB;
+
+	// Create dataOut
+	logic [14:0] dataOut;
+	logic [5:0] a, b;
+	assign outOp = data[14:12];
+	assign a = data[11:6];
+	assign b = data[5:0];
+
+	/* Subcomponents */
+	dualPortMemory memory(.clk(clk), .enA(enA), .addrA(writeAddress[2:0]), .dataA(dataIn), .addrB(readAddress[2:0]), .qB(dataOut));
+	alu arithmetic(.clk(clk), .a(a), .b(b), .c(outC), .overflow(overflow))
+
+	/* Set next state and update addresses on positive edge of the clock */
+	always_ff @(posedge clk) begin
+		
+		// Increment the write/read address when the state changes from the write/read state respectively
+		if(state == WRITE && nextState != WRITE) begin
+			writeAddress <= writeAddress + 1;
+		end
+		else if(state == READ && nextState != READ) begin
+			readAddress <= readAddress + 1;
+		end
+		
+		//TODO: Reset doest nothing
+		state <= nextState;
+	end
+	
+	/* Next state logic */
+	always_comb begin
+		case (state)
+			IDLE: begin
+            	if (mode == 1'b1) begin
+					nextState <= WRITE_IDLE;
+				end
+				else begin
+					nextState <= READ_IDLE;
+				end
+			end
+			WRITE_IDLE: begin
+            	if (mode == 1'b0) begin
+					nextState <= READ_IDLE;
+				end
+				else if (calculate == 1'b0 && !full) begin
+					nextState <= WRITE;
+				end
+				else begin
+					nextState <= WRITE_IDLE;
+				end
+			end
+			READ_IDLE: begin
+            	if (mode == 1'b1) begin
+					nextState <= WRITE_IDLE;
+				end
+				else if (calculate == 1'b0 && !empty) begin
+					nextState <= READ;
+				end
+				else begin
+					nextState <= READ_IDLE;
+				end
+			end
+			WRITE: begin
+            	if (mode == 1'b0) begin
+					nextState <= READ_IDLE;
+				end
+				else if (calculate == 1'b1) begin
+					nextState <= WRITE_IDLE;
+				end
+				else begin
+					nextState <= WRITE;
+				end
+			end
+			READ: begin
+            	if (mode == 1'b1) begin
+					nextState <= WRITE_IDLE;
+				end
+				else if (calculate == 1'b1) begin
+					nextState <= READ_IDLE;
+				end
+				else begin
+					nextState <= READ;
+				end
+			end
+			default begin
+				nextState <= IDLE;
+			end
+		endcase
+	end
+
+endmodule

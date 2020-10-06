@@ -1,0 +1,197 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "full",
+					"strict" : false
+				},
+				{
+					"name" : "empty",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[0]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[1]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[2]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[3]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[4]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[5]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[6]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[7]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[8]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[9]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[10]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[11]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[12]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[13]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[14]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[15]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[16]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[17]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[18]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[19]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[20]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[21]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[22]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[23]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[24]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[25]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[26]",
+					"strict" : false
+				},
+				{
+					"name" : "sevenSegments[27]",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "mode",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[0]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[1]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[2]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[3]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[4]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[5]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[6]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[7]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[8]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[9]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[10]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[11]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[12]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[14]",
+					"strict" : false
+				},
+				{
+					"name" : "writeData[13]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
